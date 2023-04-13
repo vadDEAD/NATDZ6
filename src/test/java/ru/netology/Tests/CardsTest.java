@@ -8,9 +8,8 @@ import ru.netology.Page.DashboardPage;
 import ru.netology.Page.LoginPage;
 
 import static com.codeborne.selenide.Selenide.open;
-import static ru.netology.Data.UserInfo.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static com.codeborne.selenide.Selenide.$;
+import static ru.netology.Data.UserInfo.*;
 
 public class CardsTest {
     LoginPage loginPage;
@@ -93,7 +92,7 @@ public class CardsTest {
         assertEquals(expectedSecondCardBalance, actualBalanceSecondCard);
     }
 
-    @Test
+    @Test //issue
     public void shouldReceiveErrorIfOverMaxAmountFrom1To2() {
         var firstCard = getFirstCardInfo();
         var secondCard = getSecondCardInfo();
@@ -110,7 +109,7 @@ public class CardsTest {
         assertEquals(secondCardBalance, actualBalanceSecondCard);
     }
 
-    @Test
+    @Test //issue
     public void shouldReceiveErrorIfOverMaxAmountFrom2To1() {
         var firstCard = getFirstCardInfo();
         var secondCard = getSecondCardInfo();
@@ -127,7 +126,7 @@ public class CardsTest {
         assertEquals(secondCardBalance, actualBalanceSecondCard);
     }
 
-    @Test
+    @Test //issue
     public void shouldReceiveErrorTransferRandomFrom1To1() {
         var firstCard = getFirstCardInfo();
         var secondCard = getSecondCardInfo();
@@ -136,6 +135,48 @@ public class CardsTest {
         var amount = 10;
         var transferPage = dashboardPage.selectCardToTransfer(firstCard);
         transferPage.makeTransfer(String.valueOf(amount), firstCard);
+        transferPage.findErrorMessage("ошибка");
+        var actualBalanceFirstCard = dashboardPage.getCardBalance(firstCard);
+        assertEquals(firstCardBalance, actualBalanceFirstCard);
+    }
+
+    @Test //issue
+    public void shouldReceiveErrorTransferRandomFrom2To2() {
+        var firstCard = getFirstCardInfo();
+        var secondCard = getSecondCardInfo();
+        var firstCardBalance = dashboardPage.getCardBalance(firstCard);
+        var secondCardBalance = dashboardPage.getCardBalance(secondCard);
+        var amount = 10;
+        var transferPage = dashboardPage.selectCardToTransfer(secondCard);
+        transferPage.makeTransfer(String.valueOf(amount), secondCard);
+        transferPage.findErrorMessage("ошибка");
+        var actualBalanceFirstCard = dashboardPage.getCardBalance(firstCard);
+        assertEquals(firstCardBalance, actualBalanceFirstCard);
+    }
+
+    @Test// issue
+    public void shouldReceiveErrorTransfer0From1To2() {
+        var firstCard = getFirstCardInfo();
+        var secondCard = getSecondCardInfo();
+        var firstCardBalance = dashboardPage.getCardBalance(firstCard);
+        var secondCardBalance = dashboardPage.getCardBalance(secondCard);
+        var amount = 0;
+        var transferPage = dashboardPage.selectCardToTransfer(firstCard);
+        transferPage.makeTransfer(String.valueOf(amount), secondCard);
+        transferPage.findErrorMessage("ошибка");
+        var actualBalanceFirstCard = dashboardPage.getCardBalance(firstCard);
+        assertEquals(firstCardBalance, actualBalanceFirstCard);
+    }
+
+    @Test// issue
+    public void shouldReceiveErrorTransfer0From2To1() {
+        var firstCard = getFirstCardInfo();
+        var secondCard = getSecondCardInfo();
+        var firstCardBalance = dashboardPage.getCardBalance(firstCard);
+        var secondCardBalance = dashboardPage.getCardBalance(secondCard);
+        var amount = 0;
+        var transferPage = dashboardPage.selectCardToTransfer(firstCard);
+        transferPage.makeTransfer(String.valueOf(amount), secondCard);
         transferPage.findErrorMessage("ошибка");
         var actualBalanceFirstCard = dashboardPage.getCardBalance(firstCard);
         assertEquals(firstCardBalance, actualBalanceFirstCard);
