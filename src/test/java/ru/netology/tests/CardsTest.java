@@ -1,15 +1,15 @@
-package ru.netology.Tests;
+package ru.netology.tests;
 
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.netology.Data.UserInfo;
-import ru.netology.Page.DashboardPage;
-import ru.netology.Page.LoginPage;
+import ru.netology.data.UserInfo;
+import ru.netology.page.DashboardPage;
+import ru.netology.page.LoginPage;
 
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static ru.netology.Data.UserInfo.*;
+import static ru.netology.data.UserInfo.*;
 
 public class CardsTest {
     LoginPage loginPage;
